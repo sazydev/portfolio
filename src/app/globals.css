@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050816;
+  color: white;
+  font-family: var(--font-inter);
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(96, 165, 250, 0.3);
+}
+
+video {
+  pointer-events: none;
+}
+@media (min-width: 768px) {
+  * {
+    cursor: none !important;
+  }
+}
+header a span {
+  font-family: Arial Black, var(--font-inter), system-ui, sans-serif;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
