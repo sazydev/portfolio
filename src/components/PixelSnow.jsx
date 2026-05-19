@@ -16,21 +16,12 @@ export default function PixelSnow() {
     canvas.width = width;
     canvas.height = height;
 
-    const particles = Array.from({ length: 220 }, () => ({
+    const particles = Array.from({ length: 120 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-
-      // PLUS GROS
-      size: Math.random() * 3.5 + 1.2,
-
-      // Mouvement
-      speed: Math.random() * 0.55 + 0.15,
-
-      // PLUS VISIBLE
-      opacity: Math.random() * 0.6 + 0.35,
-
-      // Glow plus présent
-      glow: Math.random() * 16 + 10,
+      size: Math.random() * 2 + 0.5,
+      speed: Math.random() * 0.35 + 0.1,
+      opacity: Math.random() * 0.7 + 0.15,
     }));
 
     function resize() {
@@ -45,24 +36,15 @@ export default function PixelSnow() {
       ctx.clearRect(0, 0, width, height);
 
       particles.forEach((p) => {
-        ctx.beginPath();
-
-        // Glow bleu
-        ctx.shadowBlur = p.glow;
-        ctx.shadowColor = "rgba(59,130,246,0.9)";
-
-        // Couleur un peu plus claire
-        ctx.fillStyle = `rgba(125, 190, 255, ${p.opacity})`;
+        ctx.fillStyle = `rgba(59, 130, 246, ${p.opacity})`;
 
         ctx.fillRect(p.x, p.y, p.size, p.size);
 
-        // Mouvement
         p.y += p.speed;
-        p.x += Math.sin(p.y * 0.012) * 0.22;
+        p.x += Math.sin(p.y * 0.01) * 0.15;
 
-        // Reset
         if (p.y > height) {
-          p.y = -12;
+          p.y = -10;
           p.x = Math.random() * width;
         }
       });
@@ -83,7 +65,7 @@ export default function PixelSnow() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-40 h-full w-full pointer-events-none opacity-100"
+      className="fixed inset-0 -z-40 h-full w-full pointer-events-none"
     />
   );
 }
