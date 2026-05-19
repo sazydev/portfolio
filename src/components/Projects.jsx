@@ -71,7 +71,7 @@ export default function Projects() {
             Projets — réalisations concrètes
           </div>
 
-          <h2 className="text-5xl font-black leading-[0.95] tracking-[-0.07em] text-blue-500 md:text-7xl">
+          <h2 className="text-5xl font-black leading-[0.95] tracking-[-0.07em] text-white-500 md:text-7xl">
             Mes Projets
           </h2>
 
