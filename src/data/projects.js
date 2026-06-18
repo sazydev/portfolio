@@ -1,17 +1,50 @@
 const projects = [
-  {
-    title: "ALYO",
-    type: "Projet entrepreneurial",
-    category: "Professionnel",
-    image: "/img/alyo/logo.png",
-    description:
-      "Projet entrepreneurial autour de la présence digitale, de la création de sites, de visuels et de l’automatisation pour les entreprises locales.",
-    objectives:
-      "Créer une offre claire pour aider les commerces, associations et structures sportives à améliorer leur visibilité et leur image.",
-    result:
-      "Projet en cours de structuration avec identité, maquettes, réflexion sur les offres et démarche Étudiant-Entrepreneur.",
-    tags: ["Entrepreneuriat", "HTML", "CSS", "JS"],
-  },
+{
+  title: "ALYO",
+  type: "Projet entrepreneurial",
+  category: "Professionnel",
+  image: "/img/alyo/alyo.png",
+
+  link: "https://alyocommunication.netlify.app/",
+
+  description:
+    "Projet entrepreneurial autour de la présence digitale, de la création de sites, de visuels et de l’automatisation pour les entreprises locales.",
+
+  objectives:
+    "Créer une offre claire pour aider les commerces, associations et structures sportives à améliorer leur visibilité et leur image.",
+
+  result:
+    "Entreprise officiellement créée et opérationnelle. ALYO dispose désormais de son identité de marque, de son site web, de son numéro SIRET et d’une offre de services structurée. L’objectif est maintenant de développer un portefeuille de clients et d’accompagner les entreprises dans leur présence digitale.",
+
+  tags: ["Entrepreneuriat", "HTML", "CSS", "JS"],
+},
+
+{
+  title: "Trackly",
+  type: "Application SaaS",
+  category: "Professionnel",
+  image: "/img/trackly/trackly.png",
+
+  description:
+    "Développement d’un SaaS de suivi financier permettant aux utilisateurs de piloter leur activité grâce à des statistiques avancées et un tableau de bord intelligent.",
+
+  objectives:
+    "Concevoir une application moderne capable de centraliser les revenus, dépenses, bénéfices, objectifs et abonnements dans une interface intuitive.",
+
+  result:
+    "Création d’un SaaS complet avec authentification sécurisée, gestion des abonnements Stripe, base de données Supabase, graphiques interactifs et expérience utilisateur optimisée.",
+
+  tags: [
+    "React",
+    "Supabase",
+    "Stripe",
+    "SaaS",
+    "Recharts",
+    "UI/UX"
+  ],
+
+  link: "https://trackly2.netlify.app/",
+},
   {
     title: "ESCA’L",
     type: "Site associatif",

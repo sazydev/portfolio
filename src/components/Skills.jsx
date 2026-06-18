@@ -20,21 +20,25 @@ const skills = [
     description:
       "Création de sites vitrines, interfaces modernes, bases de données et logique utilisateur.",
     items: [
-      "Développement de sites vitrines en HTML / CSS / JavaScript",
-      "Création et gestion de bases de données SQL",
-      "Utilisation de PHPMyAdmin pour gérer les données",
-      "Connexion d’un site à une base de données",
-      "Fiche produit dynamique",
-      "Authentification Firebase",
-      "Gestion des utilisateurs",
-      "Modification des informations, mot de passe, email et déconnexion",
-      "Vérification par email à la création de compte",
-      "Intégration responsive mobile / tablette / desktop",
-      "Reproduction fidèle de maquettes Figma",
-      "Structuration propre d’un projet",
-      "Déploiement sur Netlify et o2switch",
-      "Utilisation avancée de l’IA pour debug, optimisation et structuration",
-    ],
+  "Développement d’applications web avec React",
+  "Création de dashboards interactifs et interfaces SaaS",
+  "Intégration de Supabase",
+  "Authentification sécurisée et gestion des utilisateurs",
+  "Gestion des abonnements et paiements Stripe",
+  "Création de graphiques interactifs avec Recharts",
+
+  "Développement de sites vitrines en HTML / CSS / JavaScript",
+  "Création et gestion de bases de données SQL",
+  "Connexion d’un site à une base de données",
+
+  "Intégration responsive mobile / tablette / desktop",
+  "Reproduction fidèle de maquettes Figma",
+  "Architecture et structuration de projets web",
+
+  "Déploiement sur Netlify et o2switch",
+  "Création d’interfaces UI / UX modernes",
+  "Utilisation avancée de l’IA pour le développement et l’optimisation"
+]
   },
   {
     icon: Network,

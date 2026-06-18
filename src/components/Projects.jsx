@@ -153,32 +153,34 @@ export default function Projects() {
 }
 
 function ProjectCard({ project, index, onOpen, isSwitching, slideDirection }) {
+  const hasLink = Boolean(project.link);
+
+  const openProject = () => {
+    if (!hasLink) return;
+    window.open(project.link, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <motion.article
       layout
-      initial={{
-        opacity: 0,
-        y: 30,
-        scale: 0.96,
-      }}
+      onClick={openProject}
+      initial={{ opacity: 0, y: 30, scale: 0.96 }}
       animate={{
         opacity: isSwitching ? 0.84 : 1,
         y: 0,
         x: isSwitching ? slideDirection * -22 : 0,
         scale: isSwitching ? 0.985 : 1,
       }}
-      exit={{
-        opacity: 0,
-        y: -20,
-        scale: 0.96,
-      }}
+      exit={{ opacity: 0, y: -20, scale: 0.96 }}
       transition={{
         layout: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
         duration: 0.55,
         delay: isSwitching ? index * 0.02 : index * 0.04,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="group relative h-[540px] min-w-[320px] snap-center overflow-hidden rounded-[2rem] border border-white/10 bg-[#080a10]/85 shadow-[0_30px_100px_rgba(0,0,0,0.5)] backdrop-blur-xl transition duration-500 hover:-translate-y-3 hover:border-blue-400/40 hover:shadow-[0_35px_120px_rgba(59,130,246,0.25)] sm:min-w-[380px]"
+      className={`group relative h-[540px] min-w-[320px] snap-center overflow-hidden rounded-[2rem] border border-white/10 bg-[#080a10]/85 shadow-[0_30px_100px_rgba(0,0,0,0.5)] backdrop-blur-xl transition duration-500 hover:-translate-y-3 hover:border-blue-400/40 hover:shadow-[0_35px_120px_rgba(59,130,246,0.25)] sm:min-w-[380px] ${
+        hasLink ? "cursor-pointer" : "cursor-default"
+      }`}
     >
       <div className="relative h-64 overflow-hidden">
         <img
@@ -221,11 +223,14 @@ function ProjectCard({ project, index, onOpen, isSwitching, slideDirection }) {
         </div>
 
         <button
-          onClick={onOpen}
-          className="mt-auto inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-blue-500 px-5 text-sm font-bold text-white shadow-[0_20px_60px_rgba(59,130,246,0.3)] transition hover:-translate-y-1 hover:bg-blue-400"
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpen();
+          }}
+          className="mt-auto inline-flex h-[74px] w-full items-center justify-center gap-3 rounded-[1.2rem] bg-blue-500 px-8 text-lg font-extrabold tracking-tight text-white shadow-[0_25px_80px_rgba(59,130,246,0.4)] transition-all duration-300 hover:-translate-y-1 hover:bg-blue-400 hover:shadow-[0_30px_100px_rgba(59,130,246,0.55)]"
         >
           Voir détails
-          <ArrowUpRight size={16} />
+          <ArrowUpRight size={18} />
         </button>
       </div>
     </motion.article>

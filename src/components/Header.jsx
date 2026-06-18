@@ -77,7 +77,7 @@ export default function Header() {
 
         <div className="hidden items-center gap-3 md:flex">
           <a
-            href="/assets/cv-1.pdf"
+            href="/assets/cv-matteo-boyeau-courtin.pdf"
             className="group inline-flex h-11 items-center gap-2 rounded-full border border-white/10 bg-white px-5 text-sm font-semibold text-black transition hover:scale-[1.02] hover:bg-blue-100"
           >
             Télécharger CV
@@ -113,7 +113,7 @@ export default function Header() {
             ))}
 
             <a
-              href="/assets/cv-1.pdf"
+              href="/assets/cv-matteo-boyeau-courtin.pdf"
               className="mt-2 flex h-12 items-center justify-center rounded-xl bg-white text-sm font-semibold text-black"
             >
               Télécharger CV
