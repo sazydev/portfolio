@@ -133,7 +133,7 @@ items: [
     "Création de logos et d’identités visuelles",
     "Création de supports et visuels de communication",
     "Gestion et création de contenus pour les réseaux sociaux",
-    "Gestion d’un compte TikTok ayant dépassé 50 000 vues",
+    "Gestion d’un compte TikTok professionnel ayant dépassé 150 000 vues",
     "Création de campagnes de communication pour mes propres projets",
     "Analyse de marque et réflexion autour du positionnement",
     "Gestion et mise à jour de sites web",
