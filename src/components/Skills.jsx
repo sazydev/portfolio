@@ -19,25 +19,29 @@ const skills = [
     title: "Développement Web",
     description:
       "Création de sites vitrines, interfaces modernes, bases de données et logique utilisateur.",
-    items: [
-  "Développement d’applications web avec React",
+items: [
+  "Développement d’applications web avec React et Next.js",
   "Création de dashboards interactifs et interfaces SaaS",
   "Intégration de Supabase",
   "Authentification sécurisée et gestion des utilisateurs",
-  "Gestion des abonnements et paiements Stripe",
+  "Gestion des abonnements, paiements et webhooks Stripe",
   "Création de graphiques interactifs avec Recharts",
 
-  "Développement de sites vitrines en HTML / CSS / JavaScript",
+  "Développement WordPress et création de composants personnalisés",
+  "Création de plugins WordPress sur mesure",
+  "Développement d’un plugin de conversion PNG / JPG vers WebP",
+  "Intégration et gestion de CMS avec Directus",
+
+  "Développement de sites en HTML / CSS / JavaScript",
   "Création et gestion de bases de données SQL",
-  "Connexion d’un site à une base de données",
+  "Connexion et exploitation de données via API",
 
   "Intégration responsive mobile / tablette / desktop",
   "Reproduction fidèle de maquettes Figma",
-  "Architecture et structuration de projets web",
-
-  "Déploiement sur Netlify et o2switch",
   "Création d’interfaces UI / UX modernes",
-  "Utilisation avancée de l’IA pour le développement et l’optimisation"
+
+  "Déploiement et maintenance sur Netlify et o2switch",
+  "Utilisation de Git / GitHub et gestion de versions",
 ]
   },
   {
@@ -120,19 +124,21 @@ const skills = [
       "Bases sur Premiere Pro",
     ],
   },
-  {
-    icon: Megaphone,
-    title: "Communication & Réseaux sociaux",
-    description:
-      "Création de supports visuels et gestion de présence digitale.",
-    items: [
-      "Création de posts pour entreprises et projets scolaires",
-      "Étude de la marque Méduse à Angers",
-      "Création de visuels cohérents avec l’identité d’une marque",
-      "Gestion d’un site associatif",
-      "Création de supports de communication",
-    ],
-  },
+{
+  icon: Megaphone,
+  title: "Communication & Réseaux sociaux",
+  description:
+    "Création d’identités visuelles, de contenus et gestion de présence digitale.",
+  items: [
+    "Création de logos et d’identités visuelles",
+    "Création de supports et visuels de communication",
+    "Gestion et création de contenus pour les réseaux sociaux",
+    "Gestion d’un compte TikTok ayant dépassé 50 000 vues",
+    "Création de campagnes de communication pour mes propres projets",
+    "Analyse de marque et réflexion autour du positionnement",
+    "Gestion et mise à jour de sites web",
+  ],
+},
 ];
 
 export default function Skills() {
@@ -152,14 +158,14 @@ export default function Skills() {
           </div>
 
           <h2 className="text-5xl font-black leading-[0.95] tracking-[-0.07em] text-white md:text-7xl">
-            Un profil polyvalent, orienté projets réels.
+            Un profil très polyvalent
           </h2>
 
           <p className="mx-auto mt-7 max-w-3xl text-base leading-8 text-white/55 md:text-lg">
-            Je touche à plusieurs domaines du digital : développement web,
-            réseaux, cybersécurité, design, IA et communication. Le but n’est
-            pas juste de connaître des outils, mais de savoir les utiliser dans
-            des vrais projets.
+            Communication, développement, design, IA, réseaux… difficile de me
+            mettre dans une seule case. Et ça me va très bien. J’aime
+            comprendre, tester et surtout transformer ce que j’apprends en
+            projets concrets.
           </p>
         </motion.div>
 

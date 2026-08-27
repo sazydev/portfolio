@@ -15,7 +15,7 @@ const journey = [
     title: "Bachelor Web & Digital",
     place: "MyDigitalSchool Angers",
     description:
-      "Formation orientée web, design, communication digitale et projets concrets.",
+      "Formation orientée web, design et communication digitale.",
   },
   {
     icon: BriefcaseBusiness,

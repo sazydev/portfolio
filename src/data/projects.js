@@ -5,7 +5,7 @@ const projects = [
   category: "Professionnel",
   image: "/img/alyo/alyo.png",
 
-  link: "https://alyocommunication.netlify.app/",
+  link: "https://alyo-communication.fr/",
 
   description:
     "Projet entrepreneurial autour de la présence digitale, de la création de sites, de visuels et de l’automatisation pour les entreprises locales.",
@@ -45,6 +45,20 @@ const projects = [
 
   link: "https://trackly2.netlify.app/",
 },
+  {
+    title: "Segré Basket",
+    type: "Projet de stage",
+    category: "Professionnel",
+    image: "/img/basket/basket3.png",
+    description:
+      "Conception et développement du site web du club Segré Basket dans le cadre de mon stage, avec une interface moderne et une gestion simplifiée des contenus.",
+    objectives:
+      "Moderniser la présence en ligne du club, centraliser les équipes, les actualités, le calendrier, la galerie et les partenaires, tout en facilitant leur administration avec un CMS.",
+    result:
+      "Réalisation d’un site complet en React et Next.js, stylisé en CSS, avec l’intégration du CMS Directus et des automatisations pour gérer et synchroniser les contenus du club.",
+    tags: ["React", "Next.js", "CSS", "Directus", "CMS", "Automatisation"],
+    link: "https://segrebasket2.netlify.app/",
+  },
   {
     title: "ESCA’L",
     type: "Site associatif",
@@ -89,20 +103,6 @@ const projects = [
     tags: ["HTML", "CSS", "JavaScript", "UI"],
     link: "https://losomemds.netlify.app/",
     note: "18 / 20",
-  },
-  {
-    title: "Segré Tennis de Table",
-    type: "Site associatif réel",
-    category: "Professionnel",
-    image: "/img/stt/site1.png",
-    description:
-      "Site complet réalisé pour le club Segré Tennis de Table, avec pages, visuels, communication et impact réel.",
-    objectives:
-      "Moderniser l’image du club, faciliter l’accès aux informations et améliorer la visibilité locale.",
-    result:
-      "Site utilisé par le club, meilleure présence en ligne et plusieurs nouveaux licenciés grâce au projet.",
-    tags: ["HTML", "CSS", "Communication", "SEO"],
-    link: "https://segretennisdetable.fr",
   },
   {
     title: "NO MAN’S ZONE",

@@ -5,8 +5,9 @@ import { ArrowUpRight, Folder, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const words = [
+  "Communication",
+  "Réseaux sociaux",
   "Développeur Web",
-  "Cybersécurité",
   "Réseaux Informatique",
   "Design UI / UX",
   "Automatisation IA",
@@ -32,7 +33,7 @@ export default function Hero() {
           transition={{ duration: 0.7 }}
           className="mb-9 inline-flex rounded-full border border-blue-400/60 bg-blue-500/10 px-6 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-blue-300 shadow-[0_0_40px_rgba(59,130,246,0.18)]"
         >
-          Recherche alternance · Septembre 2026
+          Recherche alternance · Dès maintenant
         </motion.div>
 
         <motion.h1
@@ -68,9 +69,7 @@ export default function Hero() {
           transition={{ duration: 0.75, delay: 0.25 }}
           className="mt-8 max-w-3xl text-base leading-8 text-white/55 md:text-xl"
         >
-          Profil web avec une base en systèmes, réseaux et cybersécurité.
-          Je conçois des interfaces propres, modernes et utiles, avec une vraie
-          attention au design et à l’expérience utilisateur.
+Profil polyvalent entre communication, création digitale et développement web. De l’identité visuelle au contenu, jusqu’à la conception d’un site, j’aime toucher à tout et transformer une idée en projet concret.
         </motion.p>
 
         <motion.div

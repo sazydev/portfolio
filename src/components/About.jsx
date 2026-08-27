@@ -113,9 +113,7 @@ export default function About() {
               </div>
 
               <p className="mt-5 leading-8 text-white/55">
-                Je cherche un cadre où je peux apprendre vite, contribuer sur de
-                vrais projets et continuer à monter en niveau en web, technique
-                et cybersécurité.
+Je sais que je n’ai pas encore tout appris. Mais j’ai déjà assez créé pour savoir ce que je peux apporter. Je cherche maintenant une entreprise qui me laissera le prouver.
               </p>
             </motion.div>
 

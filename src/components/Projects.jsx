@@ -11,7 +11,7 @@ import {
   Trophy,
   X,
 } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import projects from "@/data/projects";
 
 const filters = ["Tous", "Professionnel", "Scolaire", "Design"];
@@ -211,26 +211,16 @@ function ProjectCard({ project, index, onOpen, isSwitching, slideDirection }) {
           {project.description}
         </p>
 
-        <div className="mt-5 flex min-h-[72px] flex-wrap content-start gap-2">
-          {project.tags.slice(0, 4).map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs text-white/55"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
         <button
+          type="button"
           onClick={(e) => {
             e.stopPropagation();
             onOpen();
           }}
-          className="mt-auto inline-flex h-[74px] w-full items-center justify-center gap-3 rounded-[1.2rem] bg-blue-500 px-8 text-lg font-extrabold tracking-tight text-white shadow-[0_25px_80px_rgba(59,130,246,0.4)] transition-all duration-300 hover:-translate-y-1 hover:bg-blue-400 hover:shadow-[0_30px_100px_rgba(59,130,246,0.55)]"
+          className="mt-auto inline-flex h-12 w-fit items-center justify-center gap-2 self-start rounded-xl bg-blue-500 px-5 text-sm font-bold text-white shadow-[0_14px_35px_rgba(59,130,246,0.3)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-400 hover:shadow-[0_18px_45px_rgba(59,130,246,0.4)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
         >
           Voir détails
-          <ArrowUpRight size={18} />
+          <ArrowUpRight size={16} />
         </button>
       </div>
     </motion.article>
@@ -238,9 +228,25 @@ function ProjectCard({ project, index, onOpen, isSwitching, slideDirection }) {
 }
 
 function ProjectModal({ project, onClose }) {
+  useEffect(() => {
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+    };
+  }, []);
+
   return (
     <motion.div
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 px-4 py-8 backdrop-blur-xl"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -259,7 +265,7 @@ function ProjectModal({ project, onClose }) {
           <X size={20} />
         </button>
 
-        <div className="max-h-[88vh] overflow-y-auto">
+        <div className="max-h-[88vh] overscroll-contain overflow-y-auto">
           <div className="relative h-80 overflow-hidden">
             <img
               src={project.image}

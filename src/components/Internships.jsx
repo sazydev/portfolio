@@ -7,18 +7,41 @@ import {
   Code2,
   MonitorCog,
   Network,
+  PanelsTopLeft,
   Server,
-  ShieldCheck,
   Wrench,
 } from "lucide-react";
 
 const internships = [
   {
+    icon: PanelsTopLeft,
+    title: "Stage Développeur Web / WordPress",
+    place: "Andégave Communication — Angers",
+    duration: "3 jours",
+    missions: [
+      "Développement et amélioration d’un site WordPress pour le Domaine de Pescheray.",
+      "Création de composants, CPT et fonctionnalités WordPress personnalisés.",
+      "Développement d’un plugin de conversion PNG / JPG vers WebP.",
+      "Optimisation du responsive, de l’accessibilité et de l’interface du site.",
+    ],
+  },
+  {
+    icon: Code2,
+    title: "Stage Développeur Web",
+    place: "ESSHA Segré Basket — Segré",
+    duration: "3 mois",
+    missions: [
+      "Refonte et développement complet du site web du club avec Next.js.",
+      "Intégration de Directus comme CMS pour permettre au club de gérer son contenu en autonomie.",
+      "Création et gestion dynamique des équipes, joueurs, matchs, entraînements et actualités.",
+      "Travail sur le responsive, l’expérience utilisateur et le design global du site.",
+    ],
+  },
+  {
     icon: MonitorCog,
     title: "Stage de Seconde",
     place: "Lycée Bourg Chevreau",
     duration: "2 semaines",
-    focus: "Support, maintenance & web",
     missions: [
       "Maintenance de PC fixes, PC portables, imprimantes et périphériques.",
       "Mise à jour du site web du lycée.",
@@ -31,7 +54,6 @@ const internships = [
     title: "Stage de Seconde",
     place: "Mairie de Segré",
     duration: "5 semaines",
-    focus: "Réseau, tablettes & infrastructure",
     missions: [
       "Installation et configuration de tablettes pour les écoles.",
       "Utilisation de Windows Server 2008.",
@@ -44,7 +66,6 @@ const internships = [
     title: "Stage de Première",
     place: "Boutique Informatique de Segré",
     duration: "2 semaines",
-    focus: "Hardware & réparation",
     missions: [
       "Montage et démontage de PC fixes et portables.",
       "Remplacement d’écran de PC portable.",
@@ -57,7 +78,6 @@ const internships = [
     title: "Stage de Terminale",
     place: "Boutique Informatique de Segré",
     duration: "7 semaines",
-    focus: "Préparation, systèmes & optimisation",
     missions: [
       "Préparation complète de postes informatiques avant mise en vente.",
       "Installation de systèmes d’exploitation.",
@@ -67,79 +87,36 @@ const internships = [
   },
 ];
 
-const summary = [
-  {
-    icon: Wrench,
-    label: "Maintenance",
-  },
-  {
-    icon: Network,
-    label: "Réseaux",
-  },
-  {
-    icon: ShieldCheck,
-    label: "Sécurité",
-  },
-  {
-    icon: Code2,
-    label: "Web",
-  },
-];
-
 export default function Internships() {
   return (
     <section id="stages" className="relative overflow-hidden px-6 py-32">
       <div className="mx-auto max-w-7xl">
-        <div className="grid items-start gap-14 lg:grid-cols-[0.9fr_1.1fr]">
-          <motion.div
-            initial={{ opacity: 0, y: 26 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.75 }}
-            className="lg:sticky lg:top-28"
-          >
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/55">
-              <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.9)]" />
-              Stages — expériences terrain
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: 26 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.75 }}
+          className="mx-auto max-w-4xl text-center"
+        >
+          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/55">
+            <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.9)]" />
+            Stages — expériences terrain
+          </div>
 
-            <h2 className="text-5xl font-black leading-[0.95] tracking-[-0.07em] text-white md:text-7xl">
-              Du concret, pas seulement de la théorie.
-            </h2>
+          <h2 className="text-5xl font-black leading-[0.95] tracking-[-0.07em] text-white md:text-7xl">
+            Du concret, pas seulement de la théorie.
+          </h2>
 
-            <p className="mt-7 max-w-2xl text-base leading-8 text-white/55 md:text-lg">
-              Ces stages m’ont permis de toucher à la maintenance, au réseau, au
-              matériel, aux systèmes et à l’environnement professionnel. C’est ce
-              qui m’a donné une base technique solide avant d’aller plus loin
-              dans le web et la cybersécurité.
-            </p>
+          <p className="mx-auto mt-7 max-w-3xl text-base leading-8 text-white/55 md:text-lg">
+            Ces stages m’ont permis de toucher à la maintenance, au réseau, au
+            matériel, aux systèmes et à l’environnement professionnel. C’est ce
+            qui m’a donné une base technique solide avant d’aller plus loin dans
+            le web et la cybersécurité.
+          </p>
+        </motion.div>
 
-            <div className="mt-8 grid grid-cols-2 gap-3">
-              {summary.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <motion.div
-                    key={item.label}
-                    whileHover={{ y: -4, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 240, damping: 20 }}
-                    className="rounded-2xl border border-white/10 bg-[#080a10]/75 p-4 shadow-[0_20px_70px_rgba(0,0,0,0.25)] backdrop-blur-xl"
-                  >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10 text-blue-300">
-                      <Icon size={20} />
-                    </div>
-
-                    <p className="mt-4 font-semibold text-white">
-                      {item.label}
-                    </p>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
-
-          <div className="grid gap-5">
-            {internships.map((stage, index) => {
+        <div className="mt-16 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {internships.map((stage, index) => {
               const Icon = stage.icon;
 
               return (
@@ -170,10 +147,6 @@ export default function Internships() {
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="rounded-full border border-blue-400/20 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-300">
                           {stage.duration}
-                        </span>
-
-                        <span className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1 text-xs text-white/45">
-                          {stage.focus}
                         </span>
                       </div>
 
@@ -206,8 +179,7 @@ export default function Internships() {
                   </ul>
                 </motion.article>
               );
-            })}
-          </div>
+          })}
         </div>
       </div>
     </section>
