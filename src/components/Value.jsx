@@ -39,9 +39,9 @@ const values = [
 
 export default function Value() {
   return (
-    <section id="apports" className="relative overflow-hidden px-6 py-32">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid items-start gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+    <section id="apports" className="portfolio-section relative overflow-hidden">
+      <div className="content-container">
+        <div className="grid items-start gap-8 lg:gap-12 lg:grid-cols-[0.9fr_1.1fr]">
           <motion.div
             initial={{ opacity: 0, y: 26 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -49,24 +49,24 @@ export default function Value() {
             transition={{ duration: 0.75 }}
             className="lg:sticky lg:top-28"
           >
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/55">
+            <div className="section-label border border-white/10 bg-white/[0.04] text-white/55">
               <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.9)]" />
               Ce que je peux apporter
             </div>
 
-            <h2 className="text-5xl font-black leading-[0.95] tracking-[-0.07em] text-white md:text-7xl">
+            <h2 className="section-title text-white">
               Une approche utile, pas juste visuelle.
             </h2>
 
-            <p className="mt-7 max-w-2xl text-base leading-8 text-white/55 md:text-lg">
+            <p className="section-intro mt-5 text-white/55">
               Mon objectif, ce n’est pas seulement de faire un site qui “rend
               bien”. C’est de créer quelque chose de clair, utile, cohérent et
               capable d’aider un projet à avancer.
             </p>
 
-            <div className="mt-10 rounded-[2rem] border border-white/10 bg-[#080a10]/75 p-6 shadow-[0_30px_100px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+            <div className="mt-10 surface-card border border-white/10 bg-[#080a10]/75 shadow-[0_30px_100px_rgba(0,0,0,0.35)] backdrop-blur-xl">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-300">
+                <div className="icon-box bg-blue-500/10 text-blue-300">
                   <Code2 size={22} />
                 </div>
 
@@ -82,7 +82,7 @@ export default function Value() {
             </div>
           </motion.div>
 
-          <div className="grid gap-5">
+          <div className="grid gap-4">
             {values.map((value, index) => {
               const Icon = value.icon;
 
@@ -101,13 +101,13 @@ export default function Value() {
                     y: -6,
                     borderColor: "rgba(96,165,250,0.25)",
                   }}
-                  className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#080a10]/80 p-7 shadow-[0_30px_100px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+                  className="group relative overflow-hidden surface-card border border-white/10 bg-[#080a10]/80 shadow-[0_30px_100px_rgba(0,0,0,0.35)] backdrop-blur-xl"
                 >
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/40 to-transparent opacity-0 transition group-hover:opacity-100" />
 
-                  <div className="flex items-start gap-5">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-blue-400/20 bg-blue-500/10 text-blue-300 shadow-[0_0_40px_rgba(59,130,246,0.16)]">
-                      <Icon size={24} />
+                  <div className="flex items-start gap-4">
+                    <div className="icon-box border border-blue-400/20 bg-blue-500/10 text-blue-300 shadow-[0_0_40px_rgba(59,130,246,0.16)]">
+                      <Icon size={20} />
                     </div>
 
                     <div className="flex-1">
@@ -117,7 +117,7 @@ export default function Value() {
                             {value.label}
                           </p>
 
-                          <h3 className="mt-2 text-2xl font-bold tracking-tight text-white md:text-3xl">
+                          <h3 className="mt-2 card-title text-white">
                             {value.title}
                           </h3>
                         </div>
@@ -128,7 +128,7 @@ export default function Value() {
                         />
                       </div>
 
-                      <p className="mt-4 max-w-2xl leading-8 text-white/55">
+                      <p className="mt-4 max-w-2xl body-copy text-white/55">
                         {value.text}
                       </p>
                     </div>

@@ -89,8 +89,8 @@ const internships = [
 
 export default function Internships() {
   return (
-    <section id="stages" className="relative overflow-hidden px-6 py-32">
-      <div className="mx-auto max-w-7xl">
+    <section id="stages" className="portfolio-section relative overflow-hidden">
+      <div className="content-container">
         <motion.div
           initial={{ opacity: 0, y: 26 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -98,16 +98,16 @@ export default function Internships() {
           transition={{ duration: 0.75 }}
           className="mx-auto max-w-4xl text-center"
         >
-          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/55">
+          <div className="section-label border border-white/10 bg-white/[0.04] text-white/55">
             <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.9)]" />
             Stages — expériences terrain
           </div>
 
-          <h2 className="text-5xl font-black leading-[0.95] tracking-[-0.07em] text-white md:text-7xl">
+          <h2 className="section-title text-white">
             Du concret, pas seulement de la théorie.
           </h2>
 
-          <p className="mx-auto mt-7 max-w-3xl text-base leading-8 text-white/55 md:text-lg">
+          <p className="section-intro mx-auto mt-5 text-white/55">
             Ces stages m’ont permis de toucher à la maintenance, au réseau, au
             matériel, aux systèmes et à l’environnement professionnel. C’est ce
             qui m’a donné une base technique solide avant d’aller plus loin dans
@@ -115,7 +115,7 @@ export default function Internships() {
           </p>
         </motion.div>
 
-        <div className="mt-16 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {internships.map((stage, index) => {
               const Icon = stage.icon;
 
@@ -134,40 +134,40 @@ export default function Internships() {
                     y: -6,
                     borderColor: "rgba(96,165,250,0.25)",
                   }}
-                  className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#080a10]/80 p-7 shadow-[0_30px_100px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+                  className="group relative overflow-hidden surface-card border border-white/10 bg-[#080a10]/80 shadow-[0_30px_100px_rgba(0,0,0,0.35)] backdrop-blur-xl"
                 >
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/40 to-transparent opacity-0 transition group-hover:opacity-100" />
 
-                  <div className="flex items-start gap-5">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-blue-400/20 bg-blue-500/10 text-blue-300 shadow-[0_0_40px_rgba(59,130,246,0.16)]">
-                      <Icon size={24} />
+                  <div className="flex items-start gap-4">
+                    <div className="icon-box border border-blue-400/20 bg-blue-500/10 text-blue-300 shadow-[0_0_40px_rgba(59,130,246,0.16)]">
+                      <Icon size={20} />
                     </div>
 
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="rounded-full border border-blue-400/20 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-300">
                           {stage.duration}
                         </span>
                       </div>
 
-                      <h3 className="mt-4 text-2xl font-bold tracking-tight text-white md:text-3xl">
+                      <h3 className="mt-3 card-title text-white">
                         {stage.title}
                       </h3>
 
-                      <p className="mt-2 flex items-center gap-2 text-white/45">
+                      <p className="body-copy mt-2 flex items-center gap-2 text-white/45">
                         <Building2 size={16} />
                         {stage.place}
                       </p>
                     </div>
                   </div>
 
-                  <div className="mt-6 h-px w-full bg-gradient-to-r from-blue-400/30 via-white/10 to-transparent" />
+                  <div className="mt-5 h-px w-full bg-gradient-to-r from-blue-400/30 via-white/10 to-transparent" />
 
-                  <ul className="mt-6 grid gap-3">
+                  <ul className="mt-5 grid gap-2">
                     {stage.missions.map((mission) => (
                       <li
                         key={mission}
-                        className="flex gap-3 leading-7 text-white/58"
+                        className="flex gap-3 body-copy text-white/58"
                       >
                         <CheckCircle2
                           size={18}

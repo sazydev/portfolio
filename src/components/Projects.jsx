@@ -32,13 +32,17 @@ export default function Projects() {
     const slider = sliderRef.current;
     if (!slider || isSwitching) return;
 
+    const card = slider.querySelector("article");
+    if (!card) return;
+    const step = card.offsetWidth + parseFloat(getComputedStyle(slider).columnGap);
+
     const dir = direction === "next" ? 1 : -1;
     setSlideDirection(dir);
     setIsSwitching(true);
 
     setTimeout(() => {
       slider.scrollBy({
-        left: dir * 430,
+        left: dir * step,
         behavior: "smooth",
       });
     }, 160);
@@ -57,8 +61,8 @@ export default function Projects() {
   };
 
   return (
-    <section id="projets" className="relative overflow-hidden px-6 py-28">
-      <div className="mx-auto max-w-7xl">
+    <section id="projets" className="portfolio-section relative overflow-hidden">
+      <div className="content-container">
         <motion.div
           initial={{ opacity: 0, y: 26 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -66,16 +70,16 @@ export default function Projects() {
           transition={{ duration: 0.75 }}
           className="mx-auto max-w-4xl text-center"
         >
-          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/55">
+          <div className="section-label border border-white/10 bg-white/[0.04] text-white/55">
             <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.9)]" />
             Projets — réalisations concrètes
           </div>
 
-          <h2 className="text-5xl font-black leading-[0.95] tracking-[-0.07em] text-white-500 md:text-7xl">
+          <h2 className="section-title text-white">
             Mes Projets
           </h2>
 
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-white/55 md:text-lg">
+          <p className="section-intro mx-auto mt-5 text-white/55">
             Une sélection de projets réalisés en cours, en autonomie ou pour de
             vraies structures. Clique sur un projet pour voir les détails.
           </p>
@@ -85,6 +89,7 @@ export default function Projects() {
           {filters.map((filter) => (
             <button
               key={filter}
+              aria-pressed={activeFilter === filter}
               onClick={() => handleFilter(filter)}
               className={`rounded-full border px-5 py-2.5 text-sm font-medium transition ${
                 activeFilter === filter
@@ -97,8 +102,9 @@ export default function Projects() {
           ))}
         </div>
 
-        <div className="relative mt-14">
+        <div className="relative mt-6">
           <button
+            aria-label="Projets précédents"
             onClick={() => scroll("prev")}
             disabled={isSwitching}
             className="absolute left-0 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-[#080a10]/90 text-white shadow-[0_20px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl transition hover:bg-blue-500 disabled:opacity-40 md:flex"
@@ -117,7 +123,7 @@ export default function Projects() {
               duration: 0.42,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="no-scrollbar flex snap-x gap-6 overflow-x-auto scroll-smooth px-1 py-6 md:px-16"
+            className="no-scrollbar flex snap-x gap-5 overflow-x-auto scroll-smooth px-1 py-5 md:px-14"
           >
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, index) => (
@@ -134,6 +140,7 @@ export default function Projects() {
           </motion.div>
 
           <button
+            aria-label="Projets suivants"
             onClick={() => scroll("next")}
             disabled={isSwitching}
             className="absolute right-0 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-[#080a10]/90 text-white shadow-[0_20px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl transition hover:bg-blue-500 disabled:opacity-40 md:flex"
@@ -178,11 +185,11 @@ function ProjectCard({ project, index, onOpen, isSwitching, slideDirection }) {
         delay: isSwitching ? index * 0.02 : index * 0.04,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`group relative h-[540px] min-w-[320px] snap-center overflow-hidden rounded-[2rem] border border-white/10 bg-[#080a10]/85 shadow-[0_30px_100px_rgba(0,0,0,0.5)] backdrop-blur-xl transition duration-500 hover:-translate-y-3 hover:border-blue-400/40 hover:shadow-[0_35px_120px_rgba(59,130,246,0.25)] sm:min-w-[380px] ${
+      className={`project-card group relative snap-center overflow-hidden border border-white/10 bg-[#080a10]/85 shadow-[0_30px_100px_rgba(0,0,0,0.5)] backdrop-blur-xl transition duration-500 hover:-translate-y-3 hover:border-blue-400/40 hover:shadow-[0_35px_120px_rgba(59,130,246,0.25)] ${
         hasLink ? "cursor-pointer" : "cursor-default"
       }`}
     >
-      <div className="relative h-64 overflow-hidden">
+      <div className="relative h-44 shrink-0 overflow-hidden">
         <img
           src={project.image}
           alt={project.title}
@@ -198,16 +205,16 @@ function ProjectCard({ project, index, onOpen, isSwitching, slideDirection }) {
         )}
       </div>
 
-      <div className="flex h-[276px] flex-col p-6">
+      <div className="flex flex-1 flex-col p-5">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-400">
           {project.type}
         </p>
 
-        <h3 className="mt-2 text-2xl font-bold tracking-tight text-white">
+        <h3 className="mt-2 card-title text-white">
           {project.title}
         </h3>
 
-        <p className="mt-3 min-h-[72px] line-clamp-3 text-sm leading-6 text-white/50">
+        <p className="body-copy mt-3 line-clamp-3 text-white/50">
           {project.description}
         </p>
 
@@ -217,7 +224,7 @@ function ProjectCard({ project, index, onOpen, isSwitching, slideDirection }) {
             e.stopPropagation();
             onOpen();
           }}
-          className="mt-auto inline-flex h-12 w-fit items-center justify-center gap-2 self-start rounded-xl bg-blue-500 px-5 text-sm font-bold text-white shadow-[0_14px_35px_rgba(59,130,246,0.3)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-400 hover:shadow-[0_18px_45px_rgba(59,130,246,0.4)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+          className="action-button mt-auto inline-flex w-fit items-center justify-center self-start rounded-xl bg-blue-500 text-sm font-bold text-white shadow-[0_14px_35px_rgba(59,130,246,0.3)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-400 hover:shadow-[0_18px_45px_rgba(59,130,246,0.4)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
         >
           Voir détails
           <ArrowUpRight size={16} />
@@ -256,9 +263,10 @@ function ProjectModal({ project, onClose }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 40, scale: 0.96 }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="relative max-h-[88vh] w-full max-w-4xl overflow-hidden rounded-[2rem] border border-white/10 bg-[#080a10] shadow-[0_40px_140px_rgba(0,0,0,0.75)]"
+        className="relative max-h-[88vh] w-full max-w-3xl overflow-hidden rounded-[1.25rem] border border-white/10 bg-[#080a10] shadow-[0_40px_140px_rgba(0,0,0,0.75)]"
       >
         <button
+          aria-label="Fermer les détails du projet"
           onClick={onClose}
           className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white backdrop-blur-xl transition hover:bg-white hover:text-black"
         >
@@ -266,7 +274,7 @@ function ProjectModal({ project, onClose }) {
         </button>
 
         <div className="max-h-[88vh] overscroll-contain overflow-y-auto">
-          <div className="relative h-80 overflow-hidden">
+          <div className="relative h-48 overflow-hidden sm:h-56">
             <img
               src={project.image}
               alt={project.title}
@@ -276,16 +284,16 @@ function ProjectModal({ project, onClose }) {
             <div className="absolute inset-0 bg-gradient-to-t from-[#080a10] via-[#080a10]/20 to-transparent" />
           </div>
 
-          <div className="p-7 md:p-10">
+          <div className="p-5 sm:p-7">
             <p className="w-fit rounded-full border border-blue-400/20 bg-blue-500/10 px-3 py-1 text-sm text-blue-300">
               {project.type}
             </p>
 
-            <h3 className="mt-5 text-4xl font-black tracking-[-0.05em] text-white">
+            <h3 className="mt-4 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
               {project.title}
             </h3>
 
-            <div className="mt-8 space-y-9">
+            <div className="mt-6 space-y-6">
               <InfoBlock
                 icon={Code2}
                 title="Description"
@@ -301,7 +309,7 @@ function ProjectModal({ project, onClose }) {
               <div>
                 <div className="flex items-center gap-3 text-blue-400">
                   <Code2 size={22} />
-                  <h4 className="text-2xl font-bold tracking-tight">
+                  <h4 className="text-base font-bold tracking-tight">
                     Technologies utilisées
                   </h4>
                 </div>
@@ -325,7 +333,7 @@ function ProjectModal({ project, onClose }) {
                   href={project.link}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-12 items-center gap-2 rounded-xl bg-blue-500 px-6 text-sm font-bold text-white shadow-[0_20px_60px_rgba(59,130,246,0.3)] transition hover:-translate-y-1 hover:bg-blue-400"
+                  className="action-button inline-flex items-center rounded-xl bg-blue-500 text-sm font-bold text-white shadow-[0_20px_60px_rgba(59,130,246,0.3)] transition hover:-translate-y-1 hover:bg-blue-400"
                 >
                   Voir le projet en ligne
                   <ExternalLink size={17} />
@@ -344,10 +352,10 @@ function InfoBlock({ icon: Icon, title, text }) {
     <div>
       <div className="flex items-center gap-3 text-blue-400">
         <Icon size={22} />
-        <h4 className="text-2xl font-bold tracking-tight">{title}</h4>
+        <h4 className="text-base font-bold tracking-tight">{title}</h4>
       </div>
 
-      <p className="mt-4 leading-8 text-white/55">{text}</p>
+      <p className="mt-4 body-copy text-white/55">{text}</p>
     </div>
   );
 }

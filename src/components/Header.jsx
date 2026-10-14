@@ -26,19 +26,19 @@ export default function Header() {
   return (
     <header className="fixed left-0 top-0 z-50 w-full px-4 pt-4">
       <div
-        className={`mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border px-5 transition-all duration-300 ${
+        className={`content-container flex h-15 items-center justify-between rounded-2xl border px-5 transition-all duration-300 ${
           scrolled
             ? "border-white/10 bg-[#070a12]/85 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
             : "border-white/8 bg-white/[0.035] backdrop-blur-xl"
         }`}
       >
         <a href="#" className="group flex items-center">
-          <div className="relative flex h-11 w-16 items-center justify-center">
+          <div className="relative flex h-11 w-14 items-center justify-center">
             <div className="absolute inset-0 rounded-2xl bg-blue-500/10 opacity-0 blur-xl transition duration-500 group-hover:opacity-100" />
 
             <svg
               viewBox="0 0 120 70"
-              className="relative h-10 w-[68px] overflow-visible"
+              className="relative h-8 w-14 overflow-visible"
               aria-label="Logo Mattéo Courtin"
             >
               <path
@@ -63,19 +63,19 @@ export default function Header() {
           </div>
         </a>
 
-        <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 md:flex">
+        <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 lg:flex">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="rounded-full px-4 py-2 text-sm text-white/55 transition hover:bg-white/[0.06] hover:text-white"
+              className="rounded-full px-3 py-2 text-sm text-white/55 transition hover:bg-white/[0.06] hover:text-white"
             >
               {item.label}
             </a>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <a
             href="/assets/CV_Matteo_Courtin.pdf"
             download="CV_Matteo_Courtin.pdf"
@@ -93,14 +93,16 @@ export default function Header() {
           type="button"
           onClick={() => setOpen(!open)}
           aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-          className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white md:hidden"
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
+          className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white lg:hidden"
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
       {open && (
-        <div className="mx-auto mt-3 max-w-7xl rounded-2xl border border-white/10 bg-[#070a12]/95 p-3 shadow-[0_20px_80px_rgba(0,0,0,0.5)] backdrop-blur-2xl md:hidden">
+        <div id="mobile-navigation" className="content-container mt-3 rounded-2xl border border-white/10 bg-[#070a12]/95 p-3 shadow-[0_20px_80px_rgba(0,0,0,0.5)] backdrop-blur-2xl lg:hidden">
           <div className="flex flex-col gap-1">
             {navItems.map((item) => (
               <a

@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
+import MotionShowcase from "@/components/MotionShowcase";
 import Projects from "@/components/Projects";
 import Journey from "@/components/Journey";
 import Value from "@/components/Value";
@@ -22,6 +23,7 @@ export default function Home() {
         <Hero />
         <About />
         <Skills />
+        <MotionShowcase />
         <Projects />
         <Journey />
         <Value />
