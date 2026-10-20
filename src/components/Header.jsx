@@ -1,42 +1,73 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 
-const navItems = [
-  { label: "À propos", href: "#apropos" },
-  { label: "Compétences", href: "#competences" },
-  { label: "Projets", href: "#projets" },
-  { label: "Parcours", href: "#parcours" },
-  { label: "Contact", href: "#contact" },
+const sections = [
+  {id:"accueil", label:"Accueil"},
+  {id:"apropos", label:"À propos"},
+  {id:"competences", label:"Compétences"},
+  {id:"motion-design", label:"Motion design"},
+  {id:"projets", label:"Projets"},
+  {id:"parcours", label:"Parcours"},
+  {id:"apports", label:"Apports"},
+  {id:"stages", label:"Stages"},
+  {id:"contact", label:"Contact"},
 ];
+const mainSections = ["apropos", "competences", "projets", "parcours", "contact"];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("accueil");
+  const menuRef = useRef(null);
+  const toggleRef = useRef(null);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 180, damping: 30 });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = event => {
+      if (event.matches) setOpen(false);
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
   }, []);
 
-  return (
-    <header className="fixed left-0 top-0 z-50 w-full px-4 pt-4">
-      <div
-        className={`content-container flex h-15 items-center justify-between rounded-2xl border px-5 transition-all duration-300 ${
-          scrolled
-            ? "border-white/10 bg-[#070a12]/85 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
-            : "border-white/8 bg-white/[0.035] backdrop-blur-xl"
-        }`}
-      >
-        <a href="#" className="group flex items-center">
-          <div className="relative flex h-11 w-14 items-center justify-center">
-            <div className="absolute inset-0 rounded-2xl bg-blue-500/10 opacity-0 blur-xl transition duration-500 group-hover:opacity-100" />
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      let current = "accueil";
+      for (const section of sections) {
+        const node = document.getElementById(section.id);
+        if (node && node.getBoundingClientRect().top <= window.innerHeight * 0.32) current = section.id;
+      }
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 12) current = "contact";
+      setActive(current);
+    };
+    const onScroll = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, {passive:true});
+    window.addEventListener("resize", onScroll);
+    return () => {cancelAnimationFrame(frame); window.removeEventListener("scroll",onScroll); window.removeEventListener("resize",onScroll);};
+  }, []);
 
-            <svg
+  useEffect(() => {
+    if (!open) return;
+    const firstLink = menuRef.current?.querySelector("a");
+    firstLink?.focus();
+    const onKey = event => {
+      if (event.key === "Escape") {setOpen(false); toggleRef.current?.focus();}
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown",onKey);
+  }, [open]);
+
+  return <>
+    <a className="skip-link" href="#main-content">Aller au contenu</a>
+    <header className="site-header">
+      <div className="header-inner content-container">
+        <a href="#accueil" className="header-logo" aria-label="Accueil — Mattéo Courtin">            <svg
               viewBox="0 0 120 70"
               className="relative h-8 w-14 overflow-visible"
               aria-label="Logo Mattéo Courtin"
@@ -59,72 +90,23 @@ export default function Header() {
                 rx="2"
                 className="fill-blue-500 drop-shadow-[0_0_16px_rgba(59,130,246,0.8)] transition duration-300 group-hover:fill-blue-400"
               />
-            </svg>
-          </div>
-        </a>
-
-        <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 lg:flex">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="rounded-full px-3 py-2 text-sm text-white/55 transition hover:bg-white/[0.06] hover:text-white"
-            >
-              {item.label}
-            </a>
-          ))}
+            </svg></a>
+        <span className="header-section-name" aria-hidden="true">{sections.find(item => item.id === active)?.label}</span>
+        <nav className="desktop-navigation" aria-label="Navigation principale">
+          {sections.filter(item => mainSections.includes(item.id)).map(item => <a key={item.id} href={`#${item.id}`} aria-current={active === item.id ? "location" : undefined}>{item.label}</a>)}
         </nav>
-
-        <div className="hidden items-center gap-3 lg:flex">
-          <a
-            href="/assets/CV_Matteo_Courtin.pdf"
-            download="CV_Matteo_Courtin.pdf"
-            className="group inline-flex h-11 items-center gap-2 rounded-full border border-white/10 bg-white px-5 text-sm font-semibold text-black transition hover:scale-[1.02] hover:bg-blue-100"
-          >
-            Télécharger CV
-            <ArrowUpRight
-              size={16}
-              className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            />
-          </a>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-          aria-expanded={open}
-          aria-controls="mobile-navigation"
-          className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white lg:hidden"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <a className="header-cv" href="/assets/CV_Matteo_Courtin.pdf" download="CV_Matteo_Courtin.pdf">Télécharger CV <ArrowUpRight size={16} aria-hidden="true" /></a>
+        <button ref={toggleRef} className="menu-toggle" type="button" aria-label={open ? "Fermer le menu" : "Ouvrir le menu"} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
       </div>
-
-      {open && (
-        <div id="mobile-navigation" className="content-container mt-3 rounded-2xl border border-white/10 bg-[#070a12]/95 p-3 shadow-[0_20px_80px_rgba(0,0,0,0.5)] backdrop-blur-2xl lg:hidden">
-          <div className="flex flex-col gap-1">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="rounded-xl px-4 py-3 text-sm text-white/70 transition hover:bg-white/[0.06] hover:text-white"
-              >
-                {item.label}
-              </a>
-            ))}
-
-            <a
-              href="/assets/CV_Matteo_Courtin.pdf"
-              download="CV_Matteo_Courtin.pdf"
-              className="mt-2 flex h-12 items-center justify-center rounded-xl bg-white text-sm font-semibold text-black"
-            >
-              Télécharger CV
-            </a>
-          </div>
-        </div>
-      )}
+      <motion.div className="reading-progress" style={{scaleX:progress}} />
+      {open && <nav ref={menuRef} id="mobile-navigation" className="mobile-navigation" aria-label="Navigation mobile" data-lenis-prevent>
+        {sections.map(item => <a key={item.id} href={`#${item.id}`} onClick={() => setOpen(false)} aria-current={active === item.id ? "location" : undefined}>{item.label}<ArrowUpRight size={18} /></a>)}
+        <a href="/assets/CV_Matteo_Courtin.pdf" download="CV_Matteo_Courtin.pdf">Télécharger CV</a>
+      </nav>}
     </header>
-  );
+    <nav className="section-rail" aria-label="Repères dans la page">
+      {sections.map(item => <a key={item.id} href={`#${item.id}`} aria-current={active === item.id ? "location" : undefined}><span>{item.label}</span><i aria-hidden="true" /></a>)}
+    </nav>
+    <div className="current-section" aria-hidden="true"><span />{sections.find(item => item.id === active)?.label}</div>
+  </>;
 }

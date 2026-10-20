@@ -1,252 +1,88 @@
 "use client";
-
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowUpRight,
-  ChevronLeft,
-  ChevronRight,
-  Code2,
-  ExternalLink,
-  Target,
-  Trophy,
-  X,
-} from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowUpRight, Code2, ExternalLink, Target, Trophy, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useLenis } from "lenis/react";
+import Image from "next/image";
 import projects from "@/data/projects";
-
+import Reveal, { revealEase, revealViewport } from "@/components/Reveal";
 const filters = ["Tous", "Professionnel", "Scolaire", "Design"];
 
 export default function Projects() {
-  const [activeFilter, setActiveFilter] = useState("Tous");
-  const [selected, setSelected] = useState(null);
-  const [slideDirection, setSlideDirection] = useState(0);
-  const [isSwitching, setIsSwitching] = useState(false);
-  const sliderRef = useRef(null);
-
-  const filteredProjects = useMemo(() => {
-    if (activeFilter === "Tous") return projects;
-    return projects.filter((project) => project.category === activeFilter);
-  }, [activeFilter]);
-
-  const scroll = (direction) => {
-    const slider = sliderRef.current;
-    if (!slider || isSwitching) return;
-
-    const card = slider.querySelector("article");
-    if (!card) return;
-    const step = card.offsetWidth + parseFloat(getComputedStyle(slider).columnGap);
-
-    const dir = direction === "next" ? 1 : -1;
-    setSlideDirection(dir);
-    setIsSwitching(true);
-
-    setTimeout(() => {
-      slider.scrollBy({
-        left: dir * step,
-        behavior: "smooth",
-      });
-    }, 160);
-
-    setTimeout(() => {
-      setIsSwitching(false);
-      setSlideDirection(0);
-    }, 620);
-  };
-
-  const handleFilter = (filter) => {
-    setActiveFilter(filter);
-    setTimeout(() => {
-      sliderRef.current?.scrollTo({ left: 0, behavior: "smooth" });
-    }, 100);
-  };
-
-  return (
-    <section id="projets" className="portfolio-section relative overflow-hidden">
-      <div className="content-container">
-        <motion.div
-          initial={{ opacity: 0, y: 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.75 }}
-          className="mx-auto max-w-4xl text-center"
-        >
-          <div className="section-label border border-white/10 bg-white/[0.04] text-white/55">
-            <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.9)]" />
-            Projets — réalisations concrètes
-          </div>
-
-          <h2 className="section-title text-white">
-            Mes Projets
-          </h2>
-
-          <p className="section-intro mx-auto mt-5 text-white/55">
-            Une sélection de projets réalisés en cours, en autonomie ou pour de
-            vraies structures. Clique sur un projet pour voir les détails.
-          </p>
-        </motion.div>
-
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              aria-pressed={activeFilter === filter}
-              onClick={() => handleFilter(filter)}
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium transition ${
-                activeFilter === filter
-                  ? "border-blue-400 bg-blue-500 text-white shadow-[0_15px_50px_rgba(59,130,246,0.3)]"
-                  : "border-white/10 bg-white/[0.03] text-white/55 hover:bg-white/[0.07] hover:text-white"
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-
-        <div className="relative mt-6">
-          <button
-            aria-label="Projets précédents"
-            onClick={() => scroll("prev")}
-            disabled={isSwitching}
-            className="absolute left-0 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-[#080a10]/90 text-white shadow-[0_20px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl transition hover:bg-blue-500 disabled:opacity-40 md:flex"
-          >
-            <ChevronLeft size={22} />
-          </button>
-
-          <motion.div
-            ref={sliderRef}
-            animate={{
-              x: isSwitching ? slideDirection * -26 : 0,
-              opacity: isSwitching ? 0.9 : 1,
-              scale: isSwitching ? 0.985 : 1,
-            }}
-            transition={{
-              duration: 0.42,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="no-scrollbar flex snap-x gap-5 overflow-x-auto scroll-smooth px-1 py-5 md:px-14"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project, index) => (
-                <ProjectCard
-                  key={project.title}
-                  project={project}
-                  index={index}
-                  onOpen={() => setSelected(project)}
-                  isSwitching={isSwitching}
-                  slideDirection={slideDirection}
-                />
-              ))}
-            </AnimatePresence>
-          </motion.div>
-
-          <button
-            aria-label="Projets suivants"
-            onClick={() => scroll("next")}
-            disabled={isSwitching}
-            className="absolute right-0 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-[#080a10]/90 text-white shadow-[0_20px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl transition hover:bg-blue-500 disabled:opacity-40 md:flex"
-          >
-            <ChevronRight size={22} />
-          </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {selected && (
-          <ProjectModal project={selected} onClose={() => setSelected(null)} />
-        )}
-      </AnimatePresence>
-    </section>
-  );
-}
-
-function ProjectCard({ project, index, onOpen, isSwitching, slideDirection }) {
-  const hasLink = Boolean(project.link);
-
-  const openProject = () => {
-    if (!hasLink) return;
-    window.open(project.link, "_blank", "noopener,noreferrer");
-  };
-
-  return (
-    <motion.article
-      layout
-      onClick={openProject}
-      initial={{ opacity: 0, y: 30, scale: 0.96 }}
-      animate={{
-        opacity: isSwitching ? 0.84 : 1,
-        y: 0,
-        x: isSwitching ? slideDirection * -22 : 0,
-        scale: isSwitching ? 0.985 : 1,
-      }}
-      exit={{ opacity: 0, y: -20, scale: 0.96 }}
-      transition={{
-        layout: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-        duration: 0.55,
-        delay: isSwitching ? index * 0.02 : index * 0.04,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className={`project-card group relative snap-center overflow-hidden border border-white/10 bg-[#080a10]/85 shadow-[0_30px_100px_rgba(0,0,0,0.5)] backdrop-blur-xl transition duration-500 hover:-translate-y-3 hover:border-blue-400/40 hover:shadow-[0_35px_120px_rgba(59,130,246,0.25)] ${
-        hasLink ? "cursor-pointer" : "cursor-default"
-      }`}
-    >
-      <div className="relative h-44 shrink-0 overflow-hidden">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-t from-[#080a10] via-[#080a10]/20 to-transparent" />
-
-        {project.note && (
-          <div className="absolute right-4 top-4 rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs text-white/70 backdrop-blur-md">
-            Note : {project.note}
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-1 flex-col p-5">
-        <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-400">
-          {project.type}
-        </p>
-
-        <h3 className="mt-2 card-title text-white">
-          {project.title}
-        </h3>
-
-        <p className="body-copy mt-3 line-clamp-3 text-white/50">
-          {project.description}
-        </p>
-
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onOpen();
-          }}
-          className="action-button mt-auto inline-flex w-fit items-center justify-center self-start rounded-xl bg-blue-500 text-sm font-bold text-white shadow-[0_14px_35px_rgba(59,130,246,0.3)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-400 hover:shadow-[0_18px_45px_rgba(59,130,246,0.4)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
-        >
-          Voir détails
-          <ArrowUpRight size={16} />
-        </button>
-      </div>
-    </motion.article>
-  );
+  const [activeFilter,setActiveFilter] = useState("Tous");
+  const [selected,setSelected] = useState(null);
+  const filtered = activeFilter === "Tous" ? projects : projects.filter(project => project.category === activeFilter);
+  return <section id="projets" className="portfolio-section projects-section">
+    <div className="content-container">
+      <Reveal className="section-heading"><h2 className="section-title text-white">Mes Projets</h2><p className="section-intro text-white/55">Une sélection de projets réalisés en cours, en autonomie ou pour de vraies structures. Clique sur une image pour visiter le site, ou sur « Voir détails » pour découvrir le projet.</p></Reveal>
+      <Reveal mode="fade" className="project-filters" aria-label="Filtrer les projets">{filters.map(filter => <button key={filter} type="button" aria-pressed={activeFilter === filter} onClick={() => setActiveFilter(filter)}>{filter}</button>)}</Reveal>
+      <motion.div layout="position" className="project-gallery">
+        <AnimatePresence mode="popLayout">{filtered.map(project => <motion.article layout="position" key={project.title} initial={{opacity:0}} whileInView={{opacity:1}} viewport={revealViewport} exit={{opacity:0}} transition={{duration:0.6,ease:revealEase}} className="gallery-project">
+          <motion.a initial={{clipPath:"inset(0 0 18% 0 round 5px)"}} whileInView={{clipPath:"inset(0 0 0% 0 round 5px)",transitionEnd:{clipPath:"none"}}} viewport={revealViewport} transition={{duration:0.85,ease:revealEase}} className="project-cover" href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`Ouvrir le projet ${project.title} (nouvel onglet)`}>
+            <Image src={project.image} alt={project.title} width={1200} height={800} sizes="(max-width: 767px) 100vw, 50vw" />
+            <span className="project-open"><ArrowUpRight size={28} aria-hidden="true" /></span>
+            {project.note && <span className="project-note">Note : {project.note}</span>}
+          </motion.a>
+          <div className="project-meta"><p>{project.type}</p><h3>{project.title}</h3><p className="body-copy text-white/55">{project.description}</p><button type="button" className="project-details" onClick={() => setSelected(project)}>Voir détails <ArrowUpRight size={16} aria-hidden="true" /></button></div>
+        </motion.article>)}</AnimatePresence>
+      </motion.div>
+    </div>
+    <AnimatePresence>{selected && <ProjectModal project={selected} onClose={() => setSelected(null)} />}</AnimatePresence>
+  </section>;
 }
 
 function ProjectModal({ project, onClose }) {
+  const lenis = useLenis();
+  const dialogRef = useRef(null);
+  const closeRef = useRef(onClose);
+  useEffect(() => { closeRef.current = onClose; }, [onClose]);
   useEffect(() => {
-    const previousBodyOverflow = document.body.style.overflow;
-    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const previousFocus = document.activeElement;
+    const scrollPosition = { left: window.scrollX, top: window.scrollY };
+    const body = document.body;
+    const root = document.documentElement;
+    const previousBodyOverflow = body.style.overflow;
+    const previousHtmlOverflow = root.style.overflow;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    const wasStopped = lenis?.isStopped;
 
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
+    lenis?.stop();
+    root.style.scrollBehavior = "auto";
+    body.style.overflow = "hidden";
+    root.style.overflow = "hidden";
+    dialogRef.current?.querySelector("button")?.focus({ preventScroll: true });
 
-    return () => {
-      document.body.style.overflow = previousBodyOverflow;
-      document.documentElement.style.overflow = previousHtmlOverflow;
+    const keydown = event => {
+      if (event.key === "Escape") closeRef.current();
+      if (event.key !== "Tab") return;
+      const nodes = dialogRef.current?.querySelectorAll('button, a[href], [tabindex="0"]');
+      if (!nodes?.length) return;
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
-  }, []);
+    document.addEventListener("keydown", keydown);
+    return () => {
+      document.removeEventListener("keydown", keydown);
+      body.style.overflow = previousBodyOverflow;
+      root.style.overflow = previousHtmlOverflow;
+      if (lenis) {
+        lenis.resize();
+        lenis.scrollTo(scrollPosition.top, { immediate: true, force: true });
+        if (!wasStopped) lenis.start();
+      } else {
+        window.scrollTo({ ...scrollPosition, behavior: "instant" });
+      }
+      previousFocus?.focus({ preventScroll: true });
+      root.style.scrollBehavior = previousScrollBehavior;
+    };
+  }, [lenis]);
 
   return (
     <motion.div
@@ -259,10 +95,14 @@ function ProjectModal({ project, onClose }) {
       exit={{ opacity: 0 }}
     >
       <motion.div
-        initial={{ opacity: 0, y: 40, scale: 0.96 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 40, scale: 0.96 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="project-modal-title"
         className="relative max-h-[88vh] w-full max-w-3xl overflow-hidden rounded-[1.25rem] border border-white/10 bg-[#080a10] shadow-[0_40px_140px_rgba(0,0,0,0.75)]"
       >
         <button
@@ -273,9 +113,12 @@ function ProjectModal({ project, onClose }) {
           <X size={20} />
         </button>
 
-        <div className="max-h-[88vh] overscroll-contain overflow-y-auto">
+        <div className="max-h-[88vh] overscroll-contain overflow-y-auto" data-lenis-prevent>
           <div className="relative h-48 overflow-hidden sm:h-56">
-            <img
+            <Image
+              width={1200}
+              height={800}
+              sizes="(max-width: 767px) 100vw, 768px"
               src={project.image}
               alt={project.title}
               className="h-full w-full object-cover"
@@ -285,11 +128,11 @@ function ProjectModal({ project, onClose }) {
           </div>
 
           <div className="p-5 sm:p-7">
-            <p className="w-fit rounded-full border border-blue-400/20 bg-blue-500/10 px-3 py-1 text-sm text-blue-300">
+            <p className="w-fit rounded-full border border-blue-400/20 bg-blue-500/10 px-3 py-1 type-small text-blue-300">
               {project.type}
             </p>
 
-            <h3 className="mt-4 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
+            <h3 id="project-modal-title" className="mt-4 card-title text-white">
               {project.title}
             </h3>
 
@@ -309,7 +152,7 @@ function ProjectModal({ project, onClose }) {
               <div>
                 <div className="flex items-center gap-3 text-blue-400">
                   <Code2 size={22} />
-                  <h4 className="text-base font-bold tracking-tight">
+                  <h4 className="subheading">
                     Technologies utilisées
                   </h4>
                 </div>
@@ -318,7 +161,7 @@ function ProjectModal({ project, onClose }) {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white/60"
+                      className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 type-small text-white/60"
                     >
                       {tag}
                     </span>
@@ -333,7 +176,7 @@ function ProjectModal({ project, onClose }) {
                   href={project.link}
                   target="_blank"
                   rel="noreferrer"
-                  className="action-button inline-flex items-center rounded-xl bg-blue-500 text-sm font-bold text-white shadow-[0_20px_60px_rgba(59,130,246,0.3)] transition hover:-translate-y-1 hover:bg-blue-400"
+                  className="action-button inline-flex items-center rounded-xl bg-blue-500 font-semibold text-white shadow-[0_20px_60px_rgba(59,130,246,0.3)] transition hover:bg-blue-400"
                 >
                   Voir le projet en ligne
                   <ExternalLink size={17} />
@@ -352,7 +195,7 @@ function InfoBlock({ icon: Icon, title, text }) {
     <div>
       <div className="flex items-center gap-3 text-blue-400">
         <Icon size={22} />
-        <h4 className="text-base font-bold tracking-tight">{title}</h4>
+        <h4 className="subheading">{title}</h4>
       </div>
 
       <p className="mt-4 body-copy text-white/55">{text}</p>

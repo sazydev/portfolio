@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
+import Reveal from "@/components/Reveal";
 import {
-  CheckCircle2,
+  ArrowUpRight,
   Code2,
   Megaphone,
   Network,
@@ -142,88 +144,33 @@ items: [
 ];
 
 export default function Skills() {
+  const [active, setActive] = useState(0);
   return (
-    <section id="competences" className="portfolio-section relative overflow-hidden">
+    <section id="competences" className="portfolio-section skills-section">
       <div className="content-container">
-        <motion.div
-          initial={{ opacity: 0, y: 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.75 }}
-          className="mx-auto max-w-4xl text-center"
-        >
-          <div className="section-label border border-white/10 bg-white/[0.04] text-white/55">
-            <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.9)]" />
-            Compétences — technique & création
-          </div>
-
-          <h2 className="section-title text-white">
-            Un profil très polyvalent
-          </h2>
-
-          <p className="section-intro mx-auto mt-5 text-white/55">
-            Communication, développement, design, IA, réseaux… difficile de me
-            mettre dans une seule case. Et ça me va très bien. J’aime
-            comprendre, tester et surtout transformer ce que j’apprends en
-            projets concrets.
-          </p>
-        </motion.div>
-
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          {skills.map((skill, index) => {
-            const Icon = skill.icon;
-
-            return (
-              <motion.article
-                key={skill.title}
-                initial={{ opacity: 0, y: 34, scale: 0.98 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{
-                  duration: 0.65,
-                  delay: index * 0.05,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                whileHover={{
-                  y: -6,
-                  borderColor: "rgba(96,165,250,0.25)",
-                }}
-                className="group relative overflow-hidden surface-card border border-white/10 bg-[#080a10]/80 shadow-[0_30px_100px_rgba(0,0,0,0.35)] backdrop-blur-xl"
-              >
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/40 to-transparent opacity-0 transition group-hover:opacity-100" />
-
-                <div className="flex items-start gap-4">
-                  <div className="icon-box border border-blue-400/20 bg-blue-500/10 text-blue-300 shadow-[0_0_40px_rgba(59,130,246,0.16)]">
-                    <Icon size={20} />
-                  </div>
-
-                  <div>
-                    <h3 className="card-title text-white">
-                      {skill.title}
-                    </h3>
-
-                    <p className="mt-2 max-w-2xl body-copy text-white/50">
-                      {skill.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-5 h-px w-full bg-gradient-to-r from-blue-400/30 via-white/10 to-transparent" />
-
-                <ul className="mt-5 grid gap-2">
-                  {skill.items.map((item) => (
-                    <li key={item} className="flex gap-3 body-copy text-white/58">
-                      <CheckCircle2
-                        size={18}
-                        className="mt-1 shrink-0 text-blue-300"
-                      />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.article>
-            );
-          })}
+        <Reveal className="section-heading">
+          <h2 className="section-title text-white">Un profil très polyvalent</h2>
+          <p className="section-intro text-white/55">Communication, développement, design, IA, réseaux… difficile de me mettre dans une seule case. Et ça me va très bien. J’aime comprendre, tester et surtout transformer ce que j’apprends en projets concrets.</p>
+        </Reveal>
+        <div className="skills-workbench">
+          <Reveal mode="fade" className="skills-selector" aria-label="Domaines de compétences">
+            {skills.map((skill, index) => (
+              <button key={skill.title} id={`skill-button-${index}`} aria-expanded={active === index} aria-controls={`skill-content-${index}`} onClick={() => setActive(index)} className="skill-choice" data-active={active === index}>
+                <span>{skill.title}</span><ArrowUpRight size={18} aria-hidden="true" />
+              </button>
+            ))}
+          </Reveal>
+          <Reveal mode="fade" delay={0.12} className="skills-display">
+            {skills.map((skill, index) => (
+              <div key={skill.title} id={`skill-content-${index}`} role="region" aria-labelledby={`skill-button-${index}`} hidden={active !== index}>
+                {active === index && <motion.div initial={{opacity:0, y:12}} animate={{opacity:1,y:0}} transition={{duration:0.25}}>
+                  <h3>{skill.title}</h3>
+                  <p className="section-intro text-white/55">{skill.description}</p>
+                  <ul>{skill.items.map(item => <li key={item}>{item}</li>)}</ul>
+                </motion.div>}
+              </div>
+            ))}
+          </Reveal>
         </div>
       </div>
     </section>

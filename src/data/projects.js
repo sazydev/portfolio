@@ -105,21 +105,6 @@ const projects = [
     note: "18 / 20",
   },
   {
-    title: "NO MAN’S ZONE",
-    type: "Projet de partiel",
-    category: "Scolaire",
-    image: "/img/partiel/site1.png",
-    description:
-      "Projet en équipe avec une ambiance sombre et industrielle, réalisé dans un contexte de deadline.",
-    objectives:
-      "Créer un site cohérent, responsive et visuellement solide en respectant une direction artistique précise.",
-    result:
-      "Projet livré en équipe avec une note obtenue de 13,60 / 20.",
-    tags: ["Équipe", "HTML", "CSS", "JavaScript"],
-    link: "https://no-mans-zone.netlify.app/",
-    note: "13,60 / 20",
-  },
-  {
     title: "Stone Island",
     type: "Site WordPress",
     category: "Scolaire",

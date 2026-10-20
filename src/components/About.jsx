@@ -1,48 +1,37 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  ArrowUpRight,
-  Code2,
-  Cpu,
-  Rocket,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowUpRight, Plus, Minus } from "lucide-react";
+import { useState } from "react";
+import Reveal from "@/components/Reveal";
 
-const cards = [
+const disciplines = [
   {
-    icon: Cpu,
     title: "Base technique",
-    text: "Hardware, systèmes, réseau, maintenance et compréhension terrain.",
+    text: "Monter un PC, comprendre un système, faire fonctionner un réseau. C’est sur le terrain que j’ai construit mes premiers réflexes.",
+    tags: ["Hardware", "Systèmes", "Réseaux"],
   },
   {
-    icon: Code2,
     title: "Création web",
-    text: "Sites modernes, responsive, structurés et pensés pour l’utilisateur.",
+    text: "Du premier croquis au site en ligne, j’aime construire des interfaces claires, soigner les détails et voir un projet prendre forme.",
+    tags: ["Interfaces", "Développement", "Responsive"],
   },
   {
-    icon: ShieldCheck,
     title: "Culture cyber",
-    text: "OSINT, Kali Linux, analyse réseau, tests en environnement personnel.",
+    text: "OSINT, Kali Linux, analyse réseau : j’explore la sécurité en environnement personnel pour mieux comprendre ce que je construis.",
+    tags: ["OSINT", "Kali Linux", "Analyse réseau"],
   },
 ];
 
 export default function About() {
+  const [active, setActive] = useState(null);
+
   return (
     <section id="apropos" className="portfolio-section relative overflow-hidden">
       <div className="content-container grid items-center gap-8 lg:gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-        <motion.div
-          initial={{ opacity: 0, y: 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.75 }}
+        <Reveal
           className="max-w-2xl"
         >
-          <div className="section-label border border-white/10 bg-white/[0.04] text-white/55">
-            <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.9)]" />
-            À propos — mon parcours
-          </div>
-
           <h2 className="section-title text-white">
             Un profil web avec une vraie base technique.
           </h2>
@@ -68,97 +57,73 @@ export default function About() {
             href="https://www.linkedin.com/in/courtinmatteo/"
             target="_blank"
             rel="noreferrer"
-            className="group mt-7 action-button inline-flex items-center rounded-xl bg-blue-500 text-sm font-bold text-white shadow-[0_20px_60px_rgba(59,130,246,0.3)] transition hover:-translate-y-1 hover:bg-blue-400"
+            className="group mt-7 action-button inline-flex items-center rounded-xl bg-blue-500 font-semibold text-white shadow-[0_20px_60px_rgba(59,130,246,0.3)] transition hover:bg-blue-400"
           >
             Voir mon LinkedIn
             <ArrowUpRight
               size={17}
-              className="transition group-hover:translate-x-1 group-hover:-translate-y-1"
+              className="action-arrow"
             />
           </a>
-        </motion.div>
+        </Reveal>
 
-        <motion.div
-          initial={{ opacity: 0, y: 32, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-          className="relative"
-        >
-          <div className="absolute -inset-8 rounded-[3rem] bg-blue-500/10 blur-3xl" />
-
-          <div className="relative overflow-hidden surface-card border border-white/10 bg-[#080a10]/80 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-xl">
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/40 to-transparent" />
-
-            <motion.div
-              whileHover={{
-                y: -5,
-                borderColor: "rgba(96,165,250,0.25)",
-              }}
-              transition={{ type: "spring", stiffness: 240, damping: 22 }}
-              className="surface-card border border-white/10 bg-white/[0.035]"
-            >
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-sm font-medium text-blue-300">Objectif</p>
-
-                  <h3 className="mt-2 card-title text-white">
-                    Trouver une alternance où je peux progresser.
+        <div className="about-explorer">
+          <div className="about-disciplines">
+            {disciplines.map((discipline, index) => {
+              const isActive = active === index;
+              return (
+                <Reveal key={discipline.title} mode="fade" delay={index * 0.08} className="about-discipline" data-active={isActive}>
+                  <h3>
+                    <button
+                      type="button"
+                      id={`discipline-trigger-${index}`}
+                      aria-expanded={isActive}
+                      aria-controls={`discipline-panel-${index}`}
+                      onClick={() => setActive(isActive ? null : index)}
+                      className="about-discipline-trigger text-white"
+                    >
+                      <span>{discipline.title}</span>
+                      <span className="about-discipline-toggle" aria-hidden="true">
+                        {isActive ? <Minus size={18} /> : <Plus size={18} />}
+                      </span>
+                    </button>
                   </h3>
-                </div>
-
-                <div className="icon-box border border-blue-400/20 bg-blue-500/10 text-blue-300 shadow-[0_0_40px_rgba(59,130,246,0.16)]">
-                  <Rocket size={20} />
-                </div>
-              </div>
-
-              <p className="mt-5 body-copy text-white/55">
-Je sais que je n’ai pas encore tout appris. Mais j’ai déjà assez créé pour savoir ce que je peux apporter. Je cherche maintenant une entreprise qui me laissera le prouver.
-              </p>
-            </motion.div>
-
-            <div className="mt-5 grid gap-4">
-              {cards.map((card, index) => {
-                const Icon = card.icon;
-
-                return (
                   <motion.div
-                    key={card.title}
-                    initial={{ opacity: 0, x: 24 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-60px" }}
-                    whileHover={{
-                      y: -5,
-                      borderColor: "rgba(96,165,250,0.25)",
-                    }}
-                    transition={{
-                      duration: 0.55,
-                      delay: index * 0.08,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className="group relative flex gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4"
+                    id={`discipline-panel-${index}`}
+                    role="region"
+                    aria-labelledby={`discipline-trigger-${index}`}
+                    aria-hidden={!isActive}
+                    inert={!isActive}
+                    initial={false}
+                    animate={{ opacity: isActive ? 1 : 0, height: isActive ? "auto" : 0 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
                   >
-                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/30 to-transparent opacity-0 transition group-hover:opacity-100" />
-
-                    <div className="icon-box bg-blue-500/10 text-blue-300">
-                      <Icon size={20} />
-                    </div>
-
-                    <div>
-                      <h4 className="text-base font-bold tracking-tight text-white">
-                        {card.title}
-                      </h4>
-
-                      <p className="mt-2 text-sm leading-6 text-white/50">
-                        {card.text}
-                      </p>
+                    <div className="about-discipline-content">
+                      <p className="about-discipline-description body-copy text-white/55">{discipline.text}</p>
+                      <ul className="about-discipline-tags type-small text-white/55" aria-label="Domaines explorés">
+                        {discipline.tags.map((tag) => <li key={tag}>{tag}</li>)}
+                      </ul>
                     </div>
                   </motion.div>
-                );
-              })}
-            </div>
+                </Reveal>
+              );
+            })}
           </div>
-        </motion.div>
+
+          <Reveal className="about-next-step" delay={0.08}>
+            <p className="about-next-label type-small font-medium text-blue-300">La suite ?</p>
+            <h3 className="card-title text-white">Une alternance pour aller plus loin.</h3>
+            <p className="body-copy text-white/55">
+              Je sais que je n’ai pas encore tout appris. Mais j’ai déjà assez
+              créé pour savoir ce que je peux apporter. Je cherche une entreprise
+              qui me laissera le prouver.
+            </p>
+            <a href="#contact" className="about-contact-link font-semibold text-white">
+              Faisons connaissance <ArrowUpRight size={18} aria-hidden="true" />
+            </a>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
